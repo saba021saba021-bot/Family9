@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#05010f">
+<title>کارت چرخان کهکشانی</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #05010f;
+    font-family: Tahoma, sans-serif;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .galaxy-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 50%, #1a0b2e 0%, #0a0417 40%, #03010a 100%);
+  }
+
+  .stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20px 30px, #fff, transparent),
+      radial-gradient(1px 1px at 40px 70px, #fff, transparent),
+      radial-gradient(1px 1px at 50px 160px, #fff, transparent),
+      radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+      radial-gradient(1px 1px at 130px 80px, #fff, transparent),
+      radial-gradient(1px 1px at 160px 120px, #fff, transparent),
+      radial-gradient(2px 2px at 200px 60px, #fff, transparent),
+      radial-gradient(2px 2px at 250px 180px, #fff, transparent),
+      radial-gradient(1px 1px at 300px 100px, #fff, transparent),
+      radial-gradient(1px 1px at 350px 200px, #fff, transparent),
+      radial-gradient(2px 2px at 400px 50px, #fff, transparent),
+      radial-gradient(1px 1px at 450px 150px, #fff, transparent),
+      radial-gradient(1px 1px at 500px 250px, #fff, transparent),
+      radial-gradient(2px 2px at 550px 90px, #fff, transparent),
+      radial-gradient(1px 1px at 600px 220px, #fff, transparent);
+    background-size: 650px 300px;
+    animation: twinkle 4s ease-in-out infinite alternate;
+    opacity: 0.9;
+  }
+
+  .stars.layer2 {
+    background-size: 400px 400px;
+    animation: twinkle 6s ease-in-out infinite alternate-reverse;
+    opacity: 0.6;
+    background-position: 100px 100px;
+  }
+
+  .stars.layer3 {
+    background-size: 900px 500px;
+    animation: twinkle 8s ease-in-out infinite alternate;
+    opacity: 0.5;
+    background-position: 200px 200px;
+  }
+
+  @keyframes twinkle {
+    0%   { opacity: 0.4; }
+    50%  { opacity: 0.9; }
+    100% { opacity: 0.5; }
+  }
+
+  .stars-bright {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(3px 3px at 15% 25%, #fff, transparent),
+      radial-gradient(3px 3px at 75% 65%, #fff, transparent),
+      radial-gradient(2.5px 2.5px at 30% 80%, #cfe8ff, transparent),
+      radial-gradient(2.5px 2.5px at 85% 15%, #ffe9c9, transparent),
+      radial-gradient(2px 2px at 50% 45%, #fff, transparent),
+      radial-gradient(3px 3px at 10% 70%, #d6b3ff, transparent),
+      radial-gradient(2px 2px at 65% 30%, #fff, transparent);
+    background-size: 100% 100%;
+    animation: glow-bright 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow-bright {
+    0%   { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+
+  .milky-way {
+    position: absolute;
+    top: -50%;
+    left: -20%;
+    width: 140%;
+    height: 200%;
+    background:
+      radial-gradient(ellipse 50% 20% at 50% 50%, rgba(140, 90, 220, 0.35) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 15% at 60% 60%, rgba(80, 130, 255, 0.28) 0%, transparent 70%),
+      radial-gradient(ellipse 35% 12% at 40% 40%, rgba(255, 120, 220, 0.22) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 25% at 50% 50%, rgba(60, 40, 120, 0.25) 0%, transparent 80%);
+    transform: rotate(-25deg);
+    filter: blur(6px);
+    animation: nebula-drift 25s ease-in-out infinite alternate;
+  }
+
+  @keyframes nebula-drift {
+    0%   { transform: rotate(-25deg) translate(0, 0); }
+    100% { transform: rotate(-22deg) translate(3%, 2%); }
+  }
+
+  .solar-system {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .sun {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin: -25px 0 0 -25px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff5c9 0%, #ffcc33 30%, #ff9900 60%, #ff6600 100%);
+    box-shadow:
+      0 0 25px 8px rgba(255, 180, 50, 0.6),
+      0 0 60px 20px rgba(255, 140, 20, 0.3),
+      0 0 110px 40px rgba(255, 100, 0, 0.15);
+    animation: sun-pulse 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes sun-pulse {
+    0%   { transform: scale(1); }
+    100% { transform: scale(1.08); }
+  }
+
+  .orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    border: 1px solid rgba(140, 120, 255, 0.25);
+    animation: orbit-rotate linear infinite;
+  }
+
+  .planet {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .orbit-1 { width: 140px;  height: 140px;  animation-duration: 8s;  border-color: rgba(255, 180, 100, 0.35); }
+  .orbit-2 { width: 210px;  height: 210px;  animation-duration: 12s; border-color: rgba(140, 200, 255, 0.3); }
+  .orbit-3 { width: 300px;  height: 300px;  animation-duration: 18s; border-color: rgba(180, 140, 255, 0.3); }
+  .orbit-4 { width: 400px;  height: 400px;  animation-duration: 26s; border-color: rgba(255, 140, 200, 0.25); }
+  .orbit-5 { width: 520px;  height: 520px;  animation-duration: 36s; border-color: rgba(140, 255, 200, 0.2); }
+  .orbit-6 { width: 660px;  height: 660px;  animation-duration: 50s; border-color: rgba(200, 180, 255, 0.15); }
+  .orbit-7 { width: 820px;  height: 820px;  animation-duration: 70s; border-color: rgba(180, 140, 255, 0.12); }
+
+  @keyframes orbit-rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .planet-1 { width: 8px;  height: 8px;  background: radial-gradient(circle at 30% 30%, #ffe4a0, #b87333); }
+  .planet-2 { width: 11px; height: 11px; background: radial-gradient(circle at 30% 30%, #f5d4a0, #8b6b3d); }
+  .planet-3 { width: 13px; height: 13px; background: radial-gradient(circle at 30% 30%, #b0d4ff, #1e5799); }
+  .planet-4 { width: 10px; height: 10px; background: radial-gradient(circle at 30% 30%, #ff8f6b, #8b1e1e); }
+  .planet-5 { width: 20px; height: 20px; background: radial-gradient(circle at 30% 30%, #ffd9a0, #c78b4a); }
+  .planet-6 { width: 16px; height: 16px; background: radial-gradient(circle at 30% 30%, #f5e6a0, #b8a04e); }
+  .planet-7 { width: 14px; height: 14px; background: radial-gradient(circle at 30% 30%, #a0e0ff, #1e6b99); }
+
+  .planet-5::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 38px;
+    height: 38px;
+    margin: -19px 0 0 -19px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 220, 160, 0.6);
+    transform: rotateX(70deg);
+  }
+
+  .shooting-star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 6px 2px #fff;
+    opacity: 0;
+    animation: shoot 8s linear infinite;
+  }
+
+  .shooting-star::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
+    transform: translateY(-50%);
+  }
+
+  .s1 { top: 10%; left: -10%; animation-delay: 0s; }
+  .s2 { top: 40%; left: -10%; animation-delay: 4s; }
+  .s3 { top: 70%; left: -10%; animation-delay: 7s; }
+
+  @keyframes shoot {
+    0%   { transform: translate(0, 0) rotate(-30deg); opacity: 0; }
+    5%   { opacity: 1; }
+    25%  { opacity: 1; }
+    35%  { transform: translate(120vw, 60vh) rotate(-30deg); opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  .scene {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+  }
+
+  .card-container {
+    perspective: 1000px;
+    -webkit-perspective: 1000px;
+    width: min(72vw, 280px);
+    height: min(96vw, 373px);
+    position: relative;
+  }
+
+  .card-container::before {
+    content: '';
+    position: absolute;
+    inset: -25px;
+    background: radial-gradient(ellipse at center, rgba(140, 100, 255, 0.4), transparent 70%);
+    border-radius: 50%;
+    filter: blur(18px);
+    animation: aura-pulse 3s ease-in-out infinite alternate;
+    z-index: -1;
+  }
+
+  @keyframes aura-pulse {
+    0%   { opacity: 0.6; transform: scale(0.95); }
+    100% { opacity: 1;   transform: scale(1.05); }
+  }
+
+  .card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transform: rotateY(180deg);
+    cursor: pointer;
+    transition: transform 2.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    -webkit-transition: -webkit-transform 2.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 2px rgba(160, 130, 255, 0.4),
+      0 0 25px rgba(120, 90, 255, 0.6),
+      0 0 50px rgba(80, 60, 180, 0.4),
+      0 8px 30px rgba(0, 0, 0, 0.7);
+  }
+
+  .card-face img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    -webkit-user-drag: none;
+    pointer-events: none;
+  }
+
+  .card-front { transform: rotateY(0deg); }
+  .card-back  { transform: rotateY(180deg); }
+
+  .ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid rgba(180, 150, 255, 0.9);
+    transform: translate(-50%, -50%) scale(0);
+    pointer-events: none;
+    z-index: 10;
+    box-shadow: 0 0 15px rgba(160, 120, 255, 0.8);
+    animation: ripple-out 1s ease-out forwards;
+  }
+
+  @keyframes ripple-out {
+    0% {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 1;
+      border-width: 4px;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(10);
+      opacity: 0;
+      border-width: 1px;
+    }
+  }
+
+  .hint {
+    position: relative;
+    margin-top: 30px;
+    color: rgba(220, 210, 255, 0.85);
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: 1px;
+    animation: hint-pulse 2s ease-in-out infinite;
+    text-shadow: 0 0 12px rgba(140, 100, 255, 0.8);
+    padding: 0 20px;
+  }
+
+  @keyframes hint-pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.05); }
+  }
+
+  @media (max-width: 480px) {
+    .orbit-1 { width: 120px;  height: 120px; }
+    .orbit-2 { width: 180px;  height: 180px; }
+    .orbit-3 { width: 250px;  height: 250px; }
+    .orbit-4 { width: 330px;  height: 330px; }
+    .orbit-5 { width: 430px;  height: 430px; }
+    .orbit-6 { width: 550px;  height: 550px; }
+    .orbit-7 { width: 680px;  height: 680px; }
+
+    .sun {
+      width: 42px;
+      height: 42px;
+      margin: -21px 0 0 -21px;
+    }
+
+    .hint {
+      font-size: 13px;
+      margin-top: 25px;
+    }
+  }
+
+  @media (max-height: 500px) {
+    .card-container {
+      width: min(50vw, 200px);
+      height: min(66vw, 266px);
+    }
+
+    .hint {
+      margin-top: 12px;
+      font-size: 12px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="galaxy-bg">
+  <div class="milky-way"></div>
+  <div class="stars"></div>
+  <div class="stars layer2"></div>
+  <div class="stars layer3"></div>
+  <div class="stars-bright"></div>
+  <div class="shooting-star s1"></div>
+  <div class="shooting-star s2"></div>
+  <div class="shooting-star s3"></div>
+</div>
+
+<div class="solar-system">
+  <div class="sun"></div>
+  <div class="orbit orbit-1"><div class="planet planet-1"></div></div>
+  <div class="orbit orbit-2"><div class="planet planet-2"></div></div>
+  <div class="orbit orbit-3"><div class="planet planet-3"></div></div>
+  <div class="orbit orbit-4"><div class="planet planet-4"></div></div>
+  <div class="orbit orbit-5"><div class="planet planet-5"></div></div>
+  <div class="orbit orbit-6"><div class="planet planet-6"></div></div>
+  <div class="orbit orbit-7"><div class="planet planet-7"></div></div>
+</div>
+
+<div class="scene">
+  <div class="card-container" id="container">
+    <div class="card" id="card">
+      <div class="card-face card-front">
+        <img src="front.jpg" alt="روی کارت">
+      </div>
+      <div class="card-face card-back">
+        <img src="back.jpg" alt="پشت کارت">
+      </div>
+    </div>
+  </div>
+
+  <div class="hint" id="hint">✨ روی کارت کلیک کنید ✨</div>
+</div>
+
+<!-- موسیقی پس‌زمینه -->
+<audio id="bgMusic" src="music.mp3" loop preload="auto" autoplay></audio>
+<!-- صدای بچه -->
+<audio id="sound" src="sound.mp3" preload="auto"></audio>
+
+<script>
+  (function() {
+    'use strict';
+
+    const card = document.getElementById('card');
+    const container = document.getElementById('container');
+    const sound = document.getElementById('sound');
+    const hint = document.getElementById('hint');
+    const bgMusic = document.getElementById('bgMusic');
+
+    let isFlipping = false;
+    let firstClickDone = false;
+    let lastClickTime = 0;
+
+    // ============================================
+    // راه‌اندازی موسیقی بدون دکمه
+    // ============================================
+    bgMusic.volume = 0.5;
+    bgMusic.loop = true;
+
+    function tryPlayMusic() {
+      if (!bgMusic.paused) return;
+      bgMusic.play().catch(function() {
+        // مرورگر بلاک کرده است، منتظر حرکت موس یا لمس می‌مانیم
+      });
+    }
+
+    // 1) تلاش فوری
+    tryPlayMusic();
+
+    // 2) به محض اینکه موس توی صفحه تکون خورد (حتی بدون کلیک) آهنگ پخش میشه
+    document.addEventListener('mousemove', tryPlayMusic, { once: true });
+    document.addEventListener('touchstart', tryPlayMusic, { once: true, passive: true });
+    
+    // 3) اگر روی صفحه کلیک شد
+    document.addEventListener('click', tryPlayMusic, { once: true });
+
+    // 4) اگر از حالت مینیمایز برگشت
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden && bgMusic.paused) {
+        tryPlayMusic();
+      }
+    });
+
+    // ============================================
+    // رفتار کارت
+    // ============================================
+    function handleCardInteraction(e) {
+      const now = Date.now();
+      if (now - lastClickTime < 300) return;
+      lastClickTime = now;
+
+      if (isFlipping) return;
+
+      let clientX = 0, clientY = 0;
+      if (e.touches && e.touches[0]) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else if (e.changedTouches && e.changedTouches[0]) {
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
+      } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+
+      createRipple(clientX, clientY);
+
+      if (!firstClickDone) {
+        isFlipping = true;
+        firstClickDone = true;
+
+        // از 180 (پشت) به 1800 (روی کارت) می‌رسیم (5 دور کامل)
+        card.style.transform = 'rotateY(1800deg)';
+
+        setTimeout(function() {
+          isFlipping = false;
+          card.style.transition = 'none';
+          card.style.transform = 'rotateY(360deg)';
+          void card.offsetWidth;
+          card.style.transition = 'transform 2.5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+          hint.textContent = '✨ دوباره کلیک کن ✨';
+        }, 2600);
+      } else {
+        try {
+          sound.currentTime = 0;
+          const p = sound.play();
+          if (p !== undefined) p.catch(function() {});
+        } catch (err) {}
+      }
+    }
+
+    card.addEventListener('pointerdown', handleCardInteraction);
+
+    function createRipple(clientX, clientY) {
+      const rect = container.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+
+      for (let i = 0; i < 2; i++) {
+        const ripple = document.createElement('div');
+        ripple.className = 'ripple';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.style.animationDelay = (i * 0.12) + 's';
+        container.appendChild(ripple);
+        setTimeout(function() {
+          if (ripple.parentNode) ripple.parentNode.removeChild(ripple);
+        }, 1300);
+      }
+    }
+
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e) {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, { passive: false });
+
+    document.addEventListener('touchmove', function(e) {
+      if (e.touches.length > 1) e.preventDefault();
+    }, { passive: false });
+
+  })();
+</script>
+
+</body>
+</html>
